@@ -205,6 +205,28 @@ public class MessageFragment extends BaseFragment {
         return localFile;
     }
 
+    @OnClick(R.id.get_messages_button)
+    protected void getMessages() {
+        int count = 50;
+        long reqId = System.currentTimeMillis();
+        Ln.d("Request["+reqId+"]: "+count+" messages from Webex...");
+        messageClient.list(targetId, null, 50, null, result -> {
+
+            StringBuilder message = new StringBuilder("Result["+reqId+"]: ");
+            if(result.isSuccessful())   {
+                message.append("SUCCESS | ");
+                if(result.getData()!=null)  {
+                    message.append(result.getData().size());
+                    message.append(" messages received");
+                }
+                else message.append("no messages received");
+            } else {
+                message.append("FAILURE | No data received");
+            }
+            Ln.d(message.toString());
+        });
+    }
+
     private Mention[] generateMentions() {
         Mention.All mentionAll = new Mention.All();
         ArrayList<Mention> mentionList = new ArrayList<>();
