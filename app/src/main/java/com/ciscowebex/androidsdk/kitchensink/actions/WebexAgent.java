@@ -122,6 +122,7 @@ public class WebexAgent {
         phone = webex.phone();
         phone.register(r -> {
             if (r.isSuccessful()) {
+                phone.enableBackgroundConnection(true);
                 setupIncomingCallListener();
             }
             new LoginEvent(r).post();
